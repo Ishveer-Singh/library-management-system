@@ -61,7 +61,7 @@ const deleteIssued_books = (req, res, next) => {
             error.status = 404;
             return next(error);
         }
-        
+
         res.status(200).json({ message: "Issued book deleted successfully" })
     })
 }

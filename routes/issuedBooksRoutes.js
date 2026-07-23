@@ -4,7 +4,10 @@ const { body, param } = require("express-validator");
 const validate = require("../middleware/validate")
 
 const { getIssued_books, getIssued_booksid, addIssued_books, deleteIssued_books } =
-    require("../controllers/issuedBooksController")
+    require("../controllers/issuedBooksController");
+const auth = require("../middleware/authMiddleware");
+
+router.use(auth);
 
 router.get("/issued_books", getIssued_books)
 

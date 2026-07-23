@@ -42,7 +42,7 @@ const addMembers = (req, res, next) => {
             return next(err);
         }
 
-        res.status(201).json({message: "Member added successfully"})
+        res.status(201).json({ message: "Member added successfully" })
     })
 }
 
@@ -63,7 +63,7 @@ const updateMembers = (req, res, next) => {
             return next(error);
         }
 
-        res.status(200).json({message: "Member updated successfully"});
+        res.status(200).json({ message: "Member updated successfully" });
     })
 }
 
@@ -83,7 +83,7 @@ const deleteMembers = (req, res, next) => {
             return next(error);
         }
 
-        res.status(200).json({message: "Member deleted successfully"});
+        res.status(200).json({ message: "Member deleted successfully" });
     })
 
 }

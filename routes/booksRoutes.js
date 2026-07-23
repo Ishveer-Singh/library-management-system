@@ -5,6 +5,9 @@ const validate = require("../middleware/validate")
 
 const { getBooks, getBooksId, addBook, updateBook, deleteBook } =
     require("../controllers/booksController");
+const auth = require("../middleware/authMiddleware");
+
+router.use(auth);
 
 router.get("/books", getBooks)
 

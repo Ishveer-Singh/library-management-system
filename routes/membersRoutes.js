@@ -5,6 +5,9 @@ const validate = require("../middleware/validate")
 
 const { getMembers, getMembersid, addMembers, updateMembers, deleteMembers } =
     require("../controllers/membersController");
+const auth = require("../middleware/authMiddleware");
+
+router.use(auth);
 
 router.get("/members", getMembers)
 

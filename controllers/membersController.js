@@ -1,44 +1,52 @@
 const { getAllmembers, gettingMember, addingMembers, updatingMembers, deletingMembers } =
     require("../models/membersModel")
 
-const getMembers = (req, res) => {
+const getMembers = (req, res, next) => {
 
     getAllmembers((err, results) => {
 
         if (err) {
-            return res.status(500).json({ message: "database error" });
+            return next(err);
         }
         res.status(200).json(results);
     })
 }
 
-const getMembersid = (req, res) => {
+const getMembersid = (req, res, next) => {
 
     const id = Number(req.params.id)
 
     gettingMember(id, (err, results) => {
 
         if (err) {
-            return res.status(500).json({ message: "database error" });
+            return next(err);
         }
+
+        if (results.length === 0) {
+            const error = new Error("Member not found");
+            error.status = 404;
+            return next(error);
+        }
+
         res.status(200).json(results);
     })
 }
 
-const addMembers = (req, res) => {
+const addMembers = (req, res, next) => {
 
     const { name, email, phone } = req.body
 
     addingMembers(name, email, phone, (err, results) => {
 
         if (err) {
-            return res.status(500).json({ message: "error in adding members" });
+            return next(err);
         }
-        res.status(201).json(results);
+
+        res.status(201).json({message: "Member added successfully"})
     })
 }
 
-const updateMembers = (req, res) => {
+const updateMembers = (req, res, next) => {
 
     const id = Number(req.params.id)
     const { name, email, phone } = req.body
@@ -46,22 +54,36 @@ const updateMembers = (req, res) => {
     updatingMembers(id, name, email, phone, (err, results) => {
 
         if (err) {
-            return res.status(500).json({ message: "error in updating memebers" });
+            return next(err);
         }
-        res.status(200).json(results);
+
+        if (results.affectedRows === 0) {
+            const error = new Error("Member not found");
+            error.status = 404;
+            return next(error);
+        }
+
+        res.status(200).json({message: "Member updated successfully"});
     })
 }
 
-const deleteMembers = (req, res) => {
+const deleteMembers = (req, res, next) => {
 
     const id = Number(req.params.id)
 
     deletingMembers(id, (err, results) => {
 
         if (err) {
-            return res.status(500).json({ message: "error in deleting members" });
+            return next(err);
         }
-        res.status(200).json(results);
+
+        if (results.affectedRows === 0) {
+            const error = new Error("Member not found");
+            error.status = 404;
+            return next(error);
+        }
+
+        res.status(200).json({message: "Member deleted successfully"});
     })
 
 }

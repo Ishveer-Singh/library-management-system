@@ -1,44 +1,51 @@
 const { getAllBooks, getBook, createBook, updatingBook, deletingBook } =
     require("../models/booksModel");
 
-const getBooks = (req, res) => {
+const getBooks = (req, res, next) => {
 
     getAllBooks((err, results) => {
 
         if (err) {
-            return res.status(500).json({ message: "database error" });
+            return next(err);
         }
         res.status(200).json(results);
     });
 };
 
-const getBooksId = (req, res) => {
+const getBooksId = (req, res, next) => {
 
     const id = Number(req.params.id)
 
     getBook(id, (err, results) => {
 
         if (err) {
-            return res.status(500).json({ message: "Book not found" });
+            return next(err);
         }
+
+        if (results.length === 0) {
+            const error = new Error("Book not found");
+            error.status = 404;
+            return next(error);
+        }
+
         res.status(200).json(results);
     })
 }
 
-const addBook = (req, res) => {
+const addBook = (req, res, next) => {
 
     const { title, author, category, available_copies } = req.body
 
     createBook(title, author, category, available_copies, (err, results) => {
 
         if (err) {
-            return res.status(500).json({ message: "error in adding book" });
+            return next(err);
         }
         res.status(201).json({ message: "Book added successfully" });
     })
 }
 
-const updateBook = (req, res) => {
+const updateBook = (req, res, next) => {
 
     const id = Number(req.params.id)
     const { title, author, category, available_copies } = req.body
@@ -46,21 +53,35 @@ const updateBook = (req, res) => {
     updatingBook(id, title, author, category, available_copies, (err, results) => {
 
         if (err) {
-            return res.status(500).json({ message: "error in updating book " });
+            return next(err);
         }
+
+        if (results.affectedRows === 0) {
+            const error = new Error("Book not found");
+            error.status = 404;
+            return next(error);
+        }
+
         res.status(200).json({ message: "Book updated successfully" });
     })
 }
 
-const deleteBook = (req, res) => {
+const deleteBook = (req, res, next) => {
 
     const id = Number(req.params.id)
 
     deletingBook(id, (err, results) => {
 
         if (err) {
-            return res.status(500).json({ message: "error in deleting book" });
+            return next(err);
         }
+
+        if (results.affectedRows === 0) {
+            const error = new Error("Book not found");
+            error.status = 404;
+            return next(error);
+        }
+
         res.status(200).json({ message: "Book deleted successfully" })
     })
 }

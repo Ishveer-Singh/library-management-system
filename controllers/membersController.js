@@ -3,7 +3,12 @@ const { getAllmembers, gettingMember, addingMembers, updatingMembers, deletingMe
 
 const getMembers = (req, res, next) => {
 
-    getAllmembers((err, results) => {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+
+    const offset = (page - 1) * limit;
+
+    getAllmembers(limit, offset,(err, results) => {
 
         if (err) {
             return next(err);

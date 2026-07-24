@@ -1,8 +1,10 @@
 const db = require("../db");
 
-const getAllBooks = (callback) => {
+const getAllBooks = (limit, offset, callback) => {
 
-    db.query("SELECT * FROM books", callback);
+    db.query(`SELECT * FROM books
+         LIMIT ? OFFSET ?`,
+        [limit, offset], callback);
 };
 
 const getBook = (id, callback) => {

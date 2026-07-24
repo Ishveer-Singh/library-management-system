@@ -1,6 +1,6 @@
 const db = require("../db")
 
-const getAllissued_books = (callback) => {
+const getAllissued_books = (limit, offset,callback) => {
 
     db.query(`select issued_books.id,books.title,members.name,
         issued_books.issue_date,issued_books.return_date
@@ -8,7 +8,8 @@ const getAllissued_books = (callback) => {
         INNER JOIN members
         ON issued_books.member_id = members.id
         INNER JOIN books
-        ON issued_books.book_id = books.id;`, callback)
+        ON issued_books.book_id = books.id
+        LIMIT ? OFFSET ?;`,[limit, offset], callback)
 }
 
 const getAllissued_booksid = (id, callback) => {

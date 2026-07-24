@@ -1,8 +1,9 @@
 const db = require("../db")
 
-const getAllmembers = (callback) => {
+const getAllmembers = (limit, offset,callback) => {
 
-    db.query(`select * from members`, callback)
+    db.query(`select * from members
+        LIMIT ? OFFSET ?`,[limit, offset], callback)
 }
 
 const gettingMember = (id, callback) => {

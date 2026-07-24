@@ -10,9 +10,9 @@ const authorize = require("../middleware/authorize");
 
 router.use(auth);
 
-router.get("/issued_books", getIssued_books)
+router.get("/issued_books",authorize("user"), getIssued_books)
 
-router.get("/issued_books/:id", [
+router.get("/issued_books/:id",authorize("user"), [
     param("id")
         .isInt({ min: 1 })
         .withMessage("Issued books id must be a positive integer")

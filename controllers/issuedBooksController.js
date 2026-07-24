@@ -3,7 +3,12 @@ const { getAllissued_books, getAllissued_booksid, addingIssued_books, deletingIs
 
 const getIssued_books = (req, res, next) => {
 
-    getAllissued_books((err, results) => {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+
+    const offset = (page - 1) * limit;
+
+    getAllissued_books(limit, offset,(err, results) => {
 
         if (err) {
             return next(err);

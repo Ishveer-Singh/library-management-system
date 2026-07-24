@@ -8,7 +8,12 @@ const getMembers = (req, res, next) => {
         if (err) {
             return next(err);
         }
-        res.status(200).json(results);
+
+        res.status(200).json({
+            success: true,
+            message: "Members fetched successfully",
+            data: results
+        });
     })
 }
 
@@ -28,7 +33,11 @@ const getMembersid = (req, res, next) => {
             return next(error);
         }
 
-        res.status(200).json(results);
+        res.status(200).json({
+            success: true,
+            message: "Member fetched successfully",
+            data: results[0]
+        });
     })
 }
 
@@ -42,7 +51,10 @@ const addMembers = (req, res, next) => {
             return next(err);
         }
 
-        res.status(201).json({ message: "Member added successfully" })
+        res.status(201).json({
+            success: true,
+            message: "Member added successfully"
+        })
     })
 }
 
@@ -63,7 +75,10 @@ const updateMembers = (req, res, next) => {
             return next(error);
         }
 
-        res.status(200).json({ message: "Member updated successfully" });
+        res.status(200).json({
+            success: true,
+            message: "Member updated successfully"
+        });
     })
 }
 
@@ -83,7 +98,10 @@ const deleteMembers = (req, res, next) => {
             return next(error);
         }
 
-        res.status(200).json({ message: "Member deleted successfully" });
+        res.status(200).json({
+            success: true,
+            message: "Member deleted successfully"
+        });
     })
 
 }

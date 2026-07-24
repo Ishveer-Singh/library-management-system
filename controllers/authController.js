@@ -14,7 +14,10 @@ const registerUser = async (req, res, next) => {
         }
 
         if (results.length > 0) {
-            return res.status(400).json({ message: "Email already exists" });
+            return res.status(400).json({
+                success: false,
+                message: "Email already exists"
+            });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10)
@@ -25,7 +28,10 @@ const registerUser = async (req, res, next) => {
                 return next(err);
             }
 
-            res.status(201).json({ message: "User registered successfully" });
+            res.status(201).json({
+                success: true,
+                message: "User registered successfully"
+            });
         })
     })
 }
@@ -41,13 +47,16 @@ const loginUser = async (req, res, next) => {
         }
 
         if (results.length === 0) {
-            return res.status(404).json({ message: "User not found" });
+            return res.status(404).json({
+                success: false,
+                message: "Invalid email or password"
+            });
         }
 
         const isMatch = await bcrypt.compare(password, results[0].password)
 
         if (!isMatch) {
-            const error = new Error("Invalid password")
+            const error = new Error("Invalid email or password")
             error.status = 401;
             return next(error)
         }
@@ -58,8 +67,9 @@ const loginUser = async (req, res, next) => {
         )
 
         return res.status(200).json({
+            success: true,
             message: "You are successfully logged in",
-            token: token
+            data: {token}
         });
 
     })

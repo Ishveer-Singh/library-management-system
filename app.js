@@ -1,8 +1,23 @@
 require("dotenv").config();
 const express = require("express")
-const db = require("./db");
 
+const helmet = require("helmet");
+const cors = require("cors");
+
+const db = require("./db");
 const app = express();
+
+const limiter = require("./middleware/rateLimiter")
+
+app.use(helmet());
+
+app.use(cors({
+    origin: "http://localhost:5173", // React dev server
+    credentials: true
+}));
+
+app.use(limiter);
+
 app.use(express.json());
 
 const errorHandler = require("./middleware/errorHandler")
@@ -22,3 +37,4 @@ app.use(errorHandler)
 app.listen(process.env.PORT, () => {
     console.log(`Server running on port ${process.env.PORT}`)
 })
+

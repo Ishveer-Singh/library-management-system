@@ -8,7 +8,12 @@ const getBooks = (req, res, next) => {
         if (err) {
             return next(err);
         }
-        res.status(200).json(results);
+
+        res.status(200).json({
+            success: true,
+            message: "Books fetched successfully",
+            data: results
+        });
     });
 };
 
@@ -28,7 +33,11 @@ const getBooksId = (req, res, next) => {
             return next(error);
         }
 
-        res.status(200).json(results);
+        res.status(200).json({
+            success: true,
+            message: "Book fetched successfully",
+            data: results[0]
+        });
     })
 }
 
@@ -41,7 +50,10 @@ const addBook = (req, res, next) => {
         if (err) {
             return next(err);
         }
-        res.status(201).json({ message: "Book added successfully" });
+        
+        res.status(201).json({ 
+            success: true,
+            message: "Book added successfully" });
     })
 }
 
@@ -62,7 +74,9 @@ const updateBook = (req, res, next) => {
             return next(error);
         }
 
-        res.status(200).json({ message: "Book updated successfully" });
+        res.status(200).json({
+            success: true,
+            message: "Book updated successfully" });
     })
 }
 
@@ -82,7 +96,9 @@ const deleteBook = (req, res, next) => {
             return next(error);
         }
 
-        res.status(200).json({ message: "Book deleted successfully" })
+        res.status(200).json({ 
+            success: true,
+            message: "Book deleted successfully" })
     })
 }
 

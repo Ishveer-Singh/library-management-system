@@ -8,7 +8,11 @@ const getIssued_books = (req, res, next) => {
         if (err) {
             return next(err);
         }
-        res.status(200).json(results);
+        res.status(200).json({
+            success: true,
+            message: "Issued books fetched successfully",
+            data: results
+        });
     })
 }
 
@@ -28,7 +32,11 @@ const getIssued_booksid = (req, res, next) => {
             return next(error)
         }
 
-        res.status(200).json(results);
+        res.status(200).json({
+            success: true,
+            message: "Issued book fetched successfully",
+            data: results[0]
+        });
     })
 }
 
@@ -41,7 +49,10 @@ const addIssued_books = (req, res, next) => {
         if (err) {
             return next(err);
         }
-        res.status(201).json({ message: "Issued book added successfully" })
+        res.status(201).json({
+            success: true,
+            message: "Issued book added successfully"
+        })
 
     })
 }
@@ -62,7 +73,10 @@ const deleteIssued_books = (req, res, next) => {
             return next(error);
         }
 
-        res.status(200).json({ message: "Issued book deleted successfully" })
+        res.status(200).json({
+            success: true,
+            message: "Issued book deleted successfully"
+        })
     })
 }
 

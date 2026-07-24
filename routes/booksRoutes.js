@@ -6,19 +6,20 @@ const validate = require("../middleware/validate")
 const { getBooks, getBooksId, addBook, updateBook, deleteBook } =
     require("../controllers/booksController");
 const auth = require("../middleware/authMiddleware");
+const authorize = require("../middleware/authorize");
 
 router.use(auth);
 
-router.get("/books", getBooks)
+router.get("/books",authorize("user"), getBooks)
 
-router.get("/books/:id", [
+router.get("/books/:id",authorize("user"), [
     param("id")
         .isInt({ min: 1 })
         .withMessage("Book id must be a positive integer")
 
 ], validate, getBooksId)
 
-router.post("/books", [
+router.post("/books",authorize("admin"), [
 
     body("title")
         .trim()
@@ -53,7 +54,7 @@ router.post("/books", [
 
 ], validate, addBook)
 
-router.put("/books/:id", [
+router.put("/books/:id",authorize("admin"), [
 
     param("id")
         .isInt({ min: 1 })
@@ -91,7 +92,7 @@ router.put("/books/:id", [
 
 ], validate, updateBook)
 
-router.delete("/books/:id", [
+router.delete("/books/:id",authorize("admin"), [
     param("id")
         .isInt({ min: 1 })
         .withMessage("Book id must be a positive integer")

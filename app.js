@@ -12,10 +12,10 @@ const membersRoutes = require("./routes/membersRoutes")
 const issuedBooksRoutes = require("./routes/issuedBooksRoutes")
 const authRoutes = require("./routes/authRoutes");
 
+app.use(authRoutes)
 app.use(bookRoutes)
 app.use(membersRoutes)
 app.use(issuedBooksRoutes)
-app.use(authRoutes)
 
 app.use(errorHandler)
 

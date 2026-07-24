@@ -6,19 +6,20 @@ const validate = require("../middleware/validate")
 const { getMembers, getMembersid, addMembers, updateMembers, deleteMembers } =
     require("../controllers/membersController");
 const auth = require("../middleware/authMiddleware");
+const authorize = require("../middleware/authorize");
 
 router.use(auth);
 
-router.get("/members", getMembers)
+router.get("/members",authorize("admin"), getMembers)
 
-router.get("/members/:id", [
+router.get("/members/:id",authorize("admin"), [
     param("id")
         .isInt({ min: 1 })
         .withMessage("Member id must be a positive integer")
 
 ], validate, getMembersid)
 
-router.post("/members", [
+router.post("/members",authorize("admin"), [
     body("name")
         .trim()
         .notEmpty()
@@ -45,7 +46,7 @@ router.post("/members", [
 
 ], validate, addMembers)
 
-router.put("/members/:id", [
+router.put("/members/:id",authorize("admin"), [
     param("id")
         .isInt({ min: 1 })
         .withMessage("Member id must be a positive integer"),
@@ -79,7 +80,7 @@ router.put("/members/:id", [
 
 ], validate, updateMembers)
 
-router.delete("/members/:id", [
+router.delete("/members/:id",authorize("admin"), [
     param("id")
         .isInt({ min: 1 })
         .withMessage("Member id must be a positive integer")

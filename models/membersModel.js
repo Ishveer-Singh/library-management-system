@@ -1,9 +1,17 @@
 const db = require("../db")
 
-const getAllmembers = (limit, offset,callback) => {
+const getAllmembers = (name,limit, offset,callback) => {
 
-    db.query(`select * from members
-        LIMIT ? OFFSET ?`,[limit, offset], callback)
+    if (name) {
+        db.query(
+            "SELECT * FROM members WHERE name LIKE ? LIMIT ? OFFSET ?",
+            [`%${name}%`, limit, offset],callback);
+
+    } else {
+        db.query(
+            "SELECT * FROM members LIMIT ? OFFSET ?",
+            [limit, offset],callback);
+    }
 }
 
 const gettingMember = (id, callback) => {

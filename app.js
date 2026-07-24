@@ -12,7 +12,7 @@ const limiter = require("./middleware/rateLimiter")
 app.use(helmet());
 
 app.use(cors({
-    origin: "http://localhost:5173", // React dev server
+    origin: "http://localhost:5173",
     credentials: true
 }));
 
@@ -27,10 +27,10 @@ const membersRoutes = require("./routes/membersRoutes")
 const issuedBooksRoutes = require("./routes/issuedBooksRoutes")
 const authRoutes = require("./routes/authRoutes");
 
-app.use(authRoutes)
-app.use(bookRoutes)
-app.use(membersRoutes)
-app.use(issuedBooksRoutes)
+app.use("/api/v1/auth",authRoutes)
+app.use("/api/v1/books",bookRoutes)
+app.use("/api/v1/members",membersRoutes)
+app.use("/api/v1/issued-books",issuedBooksRoutes)
 
 app.use(errorHandler)
 

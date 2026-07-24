@@ -10,16 +10,16 @@ const authorize = require("../middleware/authorize");
 
 router.use(auth);
 
-router.get("/issued_books",authorize("user"), getIssued_books)
+router.get("/",authorize("user"), getIssued_books)
 
-router.get("/issued_books/:id",authorize("user"), [
+router.get("/:id",authorize("user"), [
     param("id")
         .isInt({ min: 1 })
         .withMessage("Issued books id must be a positive integer")
 
 ], validate, getIssued_booksid)
 
-router.post("/issued_books",authorize("admin"), [
+router.post("/",authorize("admin"), [
     body("book_id")
         .notEmpty()
         .withMessage("Book id is required")
@@ -50,7 +50,7 @@ router.post("/issued_books",authorize("admin"), [
 
 ], validate, addIssued_books)
 
-router.delete("/issued_books/:id",authorize("admin"), [
+router.delete("/:id",authorize("admin"), [
     param("id")
         .isInt({ min: 1 })
         .withMessage("Issued books id must be a positive integer")

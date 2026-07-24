@@ -3,12 +3,14 @@ const { getAllBooks, getBook, createBook, updatingBook, deletingBook } =
 
 const getBooks = (req, res, next) => {
 
+    const title=req.query.title
+
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
 
     const offset = (page - 1) * limit;
 
-    getAllBooks(limit, offset,(err, results) => {
+    getAllBooks(title,limit, offset,(err, results) => {
 
         if (err) {
             return next(err);

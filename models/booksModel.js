@@ -1,10 +1,17 @@
 const db = require("../db");
 
-const getAllBooks = (limit, offset, callback) => {
+const getAllBooks = (title,limit, offset, callback) => {
 
-    db.query(`SELECT * FROM books
-         LIMIT ? OFFSET ?`,
-        [limit, offset], callback);
+    if (title) {
+        db.query(
+            "SELECT * FROM books WHERE title LIKE ? LIMIT ? OFFSET ?",
+            [`%${title}%`, limit, offset],callback);
+
+    } else {
+        db.query(
+            "SELECT * FROM books LIMIT ? OFFSET ?",
+            [limit, offset],callback);
+    }
 };
 
 const getBook = (id, callback) => {

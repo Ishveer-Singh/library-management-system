@@ -10,9 +10,9 @@ const authorize = require("../middleware/authorize");
 
 router.use(auth);
 
-router.get("/",authorize("user"), getMembers)
+router.get("/",authorize("user","admin"), getMembers)
 
-router.get("/:id",authorize("user"), [
+router.get("/:id",authorize("user","admin"), [
     param("id")
         .isInt({ min: 1 })
         .withMessage("Member id must be a positive integer")

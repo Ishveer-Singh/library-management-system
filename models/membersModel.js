@@ -14,6 +14,21 @@ const getAllmembers = (name,limit, offset,callback) => {
     }
 }
 
+const getTotalMembers = (name, callback) => {
+    if (name) {
+        db.query(
+            "SELECT COUNT(*) AS total FROM members WHERE name LIKE ?",
+            [`%${name}%`],
+            callback
+        );
+    } else {
+        db.query(
+            "SELECT COUNT(*) AS total FROM members",
+            callback
+        );
+    }
+};
+
 const gettingMember = (id, callback) => {
 
     db.query(`select * from members where id =?`, [id], callback)
@@ -39,4 +54,4 @@ const deletingMembers = (id, callback) => {
     db.query(`delete from members where id=?`, [id], callback)
 }
 
-module.exports = { getAllmembers, gettingMember, addingMembers, updatingMembers, deletingMembers }
+module.exports = { getAllmembers, gettingMember, addingMembers, updatingMembers, deletingMembers, getTotalMembers }

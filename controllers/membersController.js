@@ -1,25 +1,35 @@
-const { getAllmembers, gettingMember, addingMembers, updatingMembers, deletingMembers } =
+const { getAllmembers, gettingMember, addingMembers, updatingMembers, deletingMembers, getTotalMembers } =
     require("../models/membersModel")
 
 const getMembers = (req, res, next) => {
 
-    const name=req.query.name
+    const name = req.query.name
 
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
 
     const offset = (page - 1) * limit;
 
-    getAllmembers(name,limit, offset,(err, results) => {
+    getAllmembers(name, limit, offset, (err, results) => {
 
         if (err) {
             return next(err);
         }
 
-        res.status(200).json({
-            success: true,
-            message: "Members fetched successfully",
-            data: results
+        getTotalMembers(name, (err, totalResult) => {
+            if (err) return next(err);
+
+            const totalMembers = totalResult[0].total;
+            const totalPages = Math.ceil(totalMembers / limit);
+
+            res.status(200).json({
+                success: true,
+                message: "Members fetched successfully",
+                data: results,
+                currentPage: page,
+                totalMembers,
+                totalPages
+            });
         });
     })
 }

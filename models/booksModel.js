@@ -14,6 +14,21 @@ const getAllBooks = (title,limit, offset, callback) => {
     }
 };
 
+const getTotalBooks = (title, callback) => {
+    if (title) {
+        db.query(
+            "SELECT COUNT(*) AS total FROM books WHERE title LIKE ?",
+            [`%${title}%`],
+            callback
+        );
+    } else {
+        db.query(
+            "SELECT COUNT(*) AS total FROM books",
+            callback
+        );
+    }
+};
+
 const getBook = (id, callback) => {
 
     db.query(`select * from books where id =?`, [id], callback)
@@ -41,5 +56,5 @@ const deletingBook = (id, callback) => {
 
 
 module.exports = {
-    getAllBooks, getBook, createBook, updatingBook, deletingBook
+    getAllBooks, getBook, createBook, updatingBook, deletingBook, getTotalBooks
 };

@@ -11,8 +11,13 @@ const limiter = require("./middleware/rateLimiter")
 
 app.use(helmet());
 
+// app.use(cors({
+//     origin: "http://localhost:5173",
+//     credentials: true
+// }));
+
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "https://library-management-frontend-teh2.onrender.com",
     credentials: true
 }));
 

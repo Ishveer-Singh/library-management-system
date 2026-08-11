@@ -1,434 +1,287 @@
-# Library Management System
+# 📚 BookSphere — Backend
 
-A backend API for managing a library system. This project provides APIs for managing books, members, and book issuing/return operations with secure authentication, authorization, relational database handling, and transaction management.
+BookSphere Backend is a RESTful API for a library management system built with Node.js, Express, and MySQL.
 
-The project follows real-world backend development practices including MVC architecture, JWT authentication, role-based authorization, validation, error handling, pagination, search, API versioning, and security middleware.
+It provides authentication, authorization, book management, member management, and issued-book operations for the BookSphere frontend.
 
----
+## 🌐 Deployment
 
-# Features
+**Live Application:**
+[BookSphere Frontend](https://library-management-frontend-teh2.onrender.com)
 
-## Authentication
 
-- User registration
-- User login
-- Password hashing using bcrypt
-- JWT-based authentication
-- Protected routes
-
-## Authorization
-
-- Role-based access control
-- Admin and user roles
-- Admin-only operations
-
-## Book Management
-
-- Add books
-- Get all books
-- Get book by ID
-- Update books
-- Delete books
-- Pagination
-- Search books
-
-## Member Management
-
-- Add members
-- Get members
-- Update members
-- Delete members
-
-## Issue & Return System
-
-- Issue books to members
-- Return books
-- Track issued books
-- Automatically update available book copies
-- MySQL transactions for maintaining data consistency
-
-## Error & Security Features
-
-- Request validation
-- Centralized error handling
-- SQL injection prevention using prepared statements
-- Helmet security headers
-- CORS configuration
-- Rate limiting
-- Environment variable protection
+> The backend is hosted on Render's free instance, so the service may take longer to respond after a period of inactivity.
 
 ---
 
-# Tech Stack
+## 🔑 Demo Account
 
-## Backend
+A demo user account is available for quickly testing the application:
 
-- Node.js
-- Express.js
-- MySQL
-- mysql2
-- JWT
-- bcrypt
-- dotenv
-- Helmet
-- CORS
-- Express Rate Limiter
-
-# Project Structure
-
+```text
+Email: user@gmail.com
+Password: user_user
+Role: User
 ```
-library-management-system
 
-├── controllers
-├── models
-├── routes
-├── middleware
-├── db
-├── app.js
+Users can also create their own account through the registration page.
+
+### 👤 User Permissions
+
+Normal users can:
+
+* View books
+* Search books
+* View members
+* Search members
+* View issued books
+* Access the dashboard
+
+Normal users cannot perform administrative operations.
+
+### 👑 Admin Permissions
+
+Admins can perform management operations such as:
+
+* Add books
+* Edit books
+* Delete books
+* Add/edit/delete members
+* Issue books
+* Return books
+
+Admin-only operations are protected by backend authorization.
+
+---
+
+## ✨ Features
+
+* 🔐 User registration and login
+* 🔑 JWT authentication
+* 🔒 Password hashing with bcrypt
+* 🛡️ Role-based authorization
+* 📚 Book CRUD operations
+* 🔎 Book search
+* 📄 Pagination
+* 👥 Member management
+* 📖 Issue book functionality
+* ↩️ Return book functionality
+* 🗄️ MySQL database
+* 🔄 Database transactions
+* 🛡️ Security middleware
+* 🚦 Rate limiting
+* 🌐 CORS configuration
+* 🏗️ MVC architecture
+* ⚠️ Centralized error handling
+
+---
+
+## 🛠️ Tech Stack
+
+* **Node.js**
+* **Express.js**
+* **MySQL**
+* **mysql2**
+* **JWT**
+* **bcrypt**
+* **Helmet**
+* **CORS**
+* **express-rate-limit**
+
+---
+
+## 🏗️ Architecture
+
+The backend follows an MVC-style architecture:
+
+```text
+Request
+   ↓
+Routes
+   ↓
+Middleware
+   ↓
+Controllers
+   ↓
+Models
+   ↓
+MySQL Database
+```
+
+---
+
+## 📁 Project Structure
+
+```text
+├── controllers/
+├── models/
+├── routes/
+├── middleware/
+├── db.js
 ├── server.js
-└── package.json
+├── package.json
+└── .env
 ```
 
 ---
 
-# Installation
+## 🗄️ Database
 
-## Clone Repository
+BookSphere uses MySQL.
+
+### Main Tables
+
+**`books`**
+Stores information about books available in the library.
+
+**`members`**
+Stores library member information.
+
+**`issued_books`**
+Stores book issue and return information.
+
+**`user`**
+Stores application users and their roles.
+
+---
+
+## 🔄 Book Issue & Return
+
+When a book is issued, the backend uses a database transaction to maintain consistency between the issued-book record and the book's available copies.
+
+Returning a book updates the issue status and restores the available copy.
+
+These operations are restricted according to the user's role.
+
+---
+
+## 🔐 Authentication & Authorization
+
+BookSphere uses JWT for authentication and bcrypt for password hashing.
+
+Role-based authorization is implemented at the backend level.
+
+For example, an authenticated normal user cannot bypass the frontend and directly call an admin-only endpoint to delete a book or return an issued book.
+
+---
+
+## 🛡️ Security
+
+The backend includes:
+
+* Password hashing with bcrypt
+* JWT authentication
+* Role-based authorization
+* Helmet security headers
+* CORS configuration
+* Rate limiting
+* Environment variables for sensitive credentials
+* Centralized error handling
+
+---
+
+## 🔐 Environment Variables
+
+Create a `.env` file in the project root:
+
+```env
+PORT=5000
+
+DB_HOST=your_database_host
+DB_PORT=3306
+DB_USER=your_database_user
+DB_PASSWORD=your_database_password
+DB_NAME=your_database_name
+
+JWT_SECRET=your_jwt_secret
+```
+
+**Never commit `.env` or database credentials to GitHub.**
+
+Add the following to `.gitignore`:
+
+```text
+.env
+node_modules/
+```
+
+---
+
+## ⚙️ Getting Started
+
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/Ishveer-Singh/library-management-system.git
-```
-
-## Move into Project Folder
-
-```bash
 cd library-management-system
 ```
 
-## Install Dependencies
+### 2. Install dependencies
 
 ```bash
 npm install
 ```
 
-## Environment Variables
+### 3. Configure environment variables
 
-Create a `.env` file in the root directory.
+Create a `.env` file with your MySQL credentials and JWT secret.
 
-Example:
+### 4. Start the server
 
-```env
-PORT=5000
-DB_HOST=localhost
-DB_USER=your_mysql_username
-DB_PASSWORD=your_mysql_password
-DB_NAME=library_management
-JWT_SECRET=your_secret_key
-```
-
-## Run Application
-
-Development mode:
+For development:
 
 ```bash
 npm run dev
 ```
 
-Production mode:
+Or:
 
 ```bash
 npm start
 ```
 
----
+The API will normally run on:
 
-# API Documentation
-
-Base URL:
-
-```
-/api/v1
+```text
+http://localhost:5000
 ```
 
 ---
 
-# Authentication Routes
+## 🔗 API
 
-## Register
+The deployed backend is available at:
 
-```
-POST /api/v1/register
+```text
+https://booksphere-backend-zd4g.onrender.com/
 ```
 
-Access:
-```
-Public
-```
+The frontend communicates with the API through the `/api/v1` routes.
 
 ---
 
-## Login
+## 🚀 Deployment
 
-```
-POST /api/v1/login
-```
+The backend is deployed on Render and uses a cloud-hosted MySQL database.
 
-Access:
-```
-Public
-```
+Production credentials and secrets are provided through environment variables.
 
 ---
 
-# Book Routes
+## 🔗 Repositories
 
-## Get All Books
+**Frontend:**
+[GitHub Repository](https://github.com/Ishveer-Singh/library-management-frontend)
 
-```
-GET /api/v1/books
-```
-
-Access:
-```
-Authenticated Users
-```
-
-Example:
-
-```
-GET /api/v1/books?page=1&limit=10
-```
+**Backend:**
+[GitHub Repository](https://github.com/Ishveer-Singh/library-management-system)
 
 ---
 
-## Search Books
+## 👨‍💻 Author
 
-```
-GET /api/v1/books?title=harry
-```
+**Ishveer Singh**
 
----
+[GitHub Profile](https://github.com/Ishveer-Singh)
 
-## Sort Books
-
-```
-GET /api/v1/books?sort=title
-```
-
----
-
-## Get Book By ID
-
-```
-GET /api/v1/books/:id
-```
-
-Access:
-```
-Authenticated Users
-```
-
----
-
-## Add Book
-
-```
-POST /api/v1/books
-```
-
-Access:
-```
-Admin Only
-```
-
----
-
-## Update Book
-
-```
-PUT /api/v1/books/:id
-```
-
-Access:
-```
-Admin Only
-```
-
----
-
-## Delete Book
-
-```
-DELETE /api/v1/books/:id
-```
-
-Access:
-```
-Admin Only
-```
-
----
-
-# Member Routes
-
-## Get Members
-
-```
-GET /api/v1/members
-```
-
-Access:
-```
-Authenticated Users
-```
-
----
-
-## Add Member
-
-```
-POST /api/v1/members
-```
-
-Access:
-```
-Admin Only
-```
-
----
-
-## Update Member
-
-```
-PUT /api/v1/members/:id
-```
-
-Access:
-```
-Admin Only
-```
-
----
-
-## Delete Member
-
-```
-DELETE /api/v1/members/:id
-```
-
-Access:
-```
-Admin Only
-```
-
----
-
-# Issued Books Routes
-
-## Issue Book
-
-```
-POST /api/v1/issued-books
-```
-
-Access:
-```
-Admin Only
-```
-
----
-
-## Return Book
-
-```
-PUT /api/v1/issued-books/:id
-```
-
-Access:
-```
-Admin Only
-```
-
----
-
-# Database Schema
-
-## Users
-
-```
-id
-name
-email
-password
-role
-```
-
----
-
-## Books
-
-```
-id
-title
-author
-category
-available_copies
-```
-
----
-
-## Members
-
-```
-id
-name
-email
-phone
-```
-
----
-
-## Issued Books
-
-```
-id
-book_id
-member_id
-issue_date
-return_date
-```
-
----
-
-# API Testing
-
-All APIs were tested using Thunder Client.
-
----
-
-# Future Improvements
-
-- React frontend
-- User dashboard
-- Admin dashboard
-- Book cover image upload
-- Deployment
-- Automated testing
-
----
-
-# Live Demo
-
-Coming Soon
-
----
-
-# License
-
-This project is licensed under the MIT License.
-
----
-
-# Author
-
-Ishveer Singh
+Built as a full-stack project to practice Node.js, Express, REST APIs, authentication, authorization, MySQL, MVC architecture, security, and cloud deployment.
